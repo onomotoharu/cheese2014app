@@ -5,16 +5,16 @@
 
   <div class="clear"></div>
 
-  <div id="post_stars" ng-click="setstar()">
-    <i class="fa {{star}}"></i>
-    <i class="fa {{star}}"></i>
-    <i class="fa {{star}}"></i>
-    <i class="fa {{star}}"></i>
-    <i class="fa fa-star-o"></i>
+  <div id="post_stars">
+    <i class="fa" ng-class="star>=1? 'fa-star':'fa-star-o' " ng-click="setstar(1)"></i>
+    <i class="fa" ng-class="star>=2? 'fa-star':'fa-star-o' " ng-click="setstar(2)"></i>
+    <i class="fa" ng-class="star>=3? 'fa-star':'fa-star-o' " ng-click="setstar(3)"></i>
+    <i class="fa" ng-class="star>=4? 'fa-star':'fa-star-o' " ng-click="setstar(4)"></i>
+    <i class="fa" ng-class="star>=5? 'fa-star':'fa-star-o' " ng-click="setstar(5)"></i>
   </div>
   <textarea id="post_comment"></textarea>
 
 </div>
 
 
-<div id="recipe_done" ng-click="post()">投稿！</div>
+<div id="post_button" ng-click="post()">投稿！</div>

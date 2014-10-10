@@ -4,9 +4,11 @@ cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $
   $rootScope.headerShow = true;
   $rootScope.footerShow = true;
   $rootScope.isViewAnimate = ($rootScope.isNextViewAnimate == undefined)? " " : $rootScope.isNextViewAnimate;
-  $rootScope.headerIconLeft = ""
-  $rootScope.headerIconRight = ""
+  $rootScope.headerIconLeft = "";
+  $rootScope.headerIconRight = "";
   $rootScope.title = "";
+  $rootScope.location = "/";
+
 
   $rootScope.carouselPrev = function(e) {
     $rootScope.isViewAnimate = "view-animate";
@@ -29,6 +31,18 @@ cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $
     }
   }
 
+  $rootScope.mypage = function(){
+    $rootScope.isViewAnimate = ""
+    $rootScope.isNextViewAnimate = ""
+    $location.path("/mypage");
+  }
+
+  $rootScope.home = function(){
+    $rootScope.isViewAnimate = ""
+    $rootScope.isNextViewAnimate = ""
+    $location.path("/");
+  }
+
 });
 
 
@@ -49,7 +63,7 @@ cheeseControllers.controller('RecipeCtrl',function($scope,$http,$rootScope, $rou
     $rootScope.isViewAnimate = "view-animate-back"
     $rootScope.isNextViewAnimate = "view-animate-back"
     console.log(111);
-    history.back();
+    $location.path("/");
     // $location.path("/post");
   }
 });
@@ -61,41 +75,67 @@ cheeseControllers.controller('PostCtrl',function($scope,$http,$rootScope, $route
   $rootScope.headerIconRight = ""
   $rootScope.title="投稿"
 
-  $scope.star = "fa-star-o"
-  $scope.setstar = function(){
-    $scope.star = "fa-star"
+  $scope.setstar = function(stars){
+    $scope.star = stars;
   }
 
   $scope.post = function(){
     $location.path("/mypage");
-    // alert(1)
     // $window.location = "/mypage";
   }
 
-    $rootScope.back = function(){
+  $rootScope.back = function(){
     $rootScope.isViewAnimate = "view-animate-back"
     $rootScope.isNextViewAnimate = "view-animate-back"
     console.log(111);
-    history.back();
-    // $location.path("/post");
+    $location.path("/recipe");
   }
 
 });
 
-cheeseControllers.controller('MypageCtrl',function($scope,$http,$rootScope, $routeParams){
+cheeseControllers.controller('MypageCtrl',function($scope,$http,$rootScope, $routeParams, $location){
   $rootScope.headerShow = true;
-  $rootScope.footerShow = false;
-  $rootScope.headerIconLeft = "fa-home"
+  $rootScope.footerShow = true;
+  $rootScope.headerIconLeft = ""
   $rootScope.headerIconRight = "fa-cog"
   $rootScope.title="マイページ"
+  $rootScope.location = "mypage";
+
+
+  $scope.column = "done";
+
+  $rootScope.setting = function(){
+    $rootScope.isViewAnimate = "view-animate";
+    $rootScope.isNextViewAnimate = "view-animate";
+    $location.path("/setting");
+  }
+
+  $rootScope.mypage = function(){
+    $rootScope.isViewAnimate = ""
+    $rootScope.isNextViewAnimate = ""
+    $location.path("/mypage");
+  }
+
+  $rootScope.home = function(){
+    $rootScope.isViewAnimate = ""
+    $rootScope.isNextViewAnimate = ""
+    $location.path("/");
+  }
+
 });
 
-cheeseControllers.controller('SettingCtrl',function($scope,$http,$rootScope, $routeParams){
+cheeseControllers.controller('SettingCtrl',function($scope,$http,$rootScope, $routeParams, $location){
   $rootScope.headerShow = true;
   $rootScope.footerShow = false;
-  $rootScope.headerIconLeft = "fa-home"
-  $rootScope.headerIconRight = "fa-user"
+  $rootScope.headerIconLeft = "fa-chevron-circle-left"
+  $rootScope.headerIconRight = ""
   $rootScope.title="設定"
+
+  $rootScope.back = function(){
+    $rootScope.isViewAnimate = "view-animate-back"
+    $rootScope.isNextViewAnimate = "view-animate-back"
+    $location.path("/mypage");
+   }
 });
 
 
