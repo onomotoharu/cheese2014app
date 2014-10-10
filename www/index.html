@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja" prefix="og: http://ogp.me/ns#" ng-app="cheeseApp">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">  
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-route.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-touch.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="./js/mobile-angular-ui.js"></script>
+<!-- <script src="./js/jquery-ui.min.js"></script> -->
+<!-- <script src="./js/jquery.ui.touch-punch.min.js"></script> -->
+<script src="./js/app.js"></script>
+<script src="./js/controllers.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/reset.css">
+<link rel="stylesheet" type="text/css" href="./css/style.css">
+<link rel="stylesheet" href="./font/font-awesome/css/font-awesome.min.css">
+<title>title</title>
+</head>
+<body>
+
+<div id="header" ng-show="headerShow">
+  <div class="header_button left {{headerIconLeftClass}}"><i class="fa {{headerIconLeft}}"></i></div>
+  <div class="header_button right {{headerIconRightClass}}"><i class="fa {{headerIconRight}}"></i></div>
+  <img id="logo" src="./img/logo.png" ng-show="!title"/>  
+  <p id="header_title">{{title}}</p>
+</div>
+
+<div id="header_spacer" ng-show="headerShow"></div>
+
+
+<div id="main" ng-view></div>
+
+<div id="footer_spacer" ng-show="footerShow"></div>
+
+<div id="footer" ng-show="footerShow">
+  <div class="footer_button"><i class="fa fa-home"></i></div>
+  <div class="footer_button"><i class="fa fa-user"></i></div>
+</div>
+
+</body>
+</html>

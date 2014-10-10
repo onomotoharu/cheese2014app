@@ -1,0 +1,32 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"Instagram\"><param name=\"ios-package\" value=\"CDVInstagramPlugin\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "*-Info.plist": {
+                "parents": {
+                    "UIStatusBarHidden": [],
+                    "UIViewControllerBasedStatusBarAppearance": []
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "com.vladstirbu.cordova.instagram": {
+            "PACKAGE_NAME": "net.winvelab.cheese"
+        }
+    },
+    "dependent_plugins": {}
+}
