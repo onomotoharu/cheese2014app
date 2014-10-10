@@ -1,13 +1,13 @@
 var cheeseApp = angular.module('cheeseApp',[
 	'ngRoute',
   'ngTouch',
-	'cheeseControllers'
+	'cheeseControllers',
+  'ngAnimate'
   // 'mobile-angular-ui'
 	]);
 
 cheeseApp.config(['$routeProvider',
   function($routeProvider) {
-    console.debug($routeProvider);
     $routeProvider.
       when('/', {
         templateUrl: 'partials/recommend.html',
@@ -104,8 +104,9 @@ cheeseApp.directive( "carouselItem", function($rootScope, $swipe){
             $rootScope.carouselPrev(carouselId);
           } else if (endAction == "next") {
             $rootScope.carouselNext(carouselId);
+          }else{
+            translateAndRotate(0, 0, 0, 0);            
           }
-          translateAndRotate(0, 0, 0, 0);
           e.stopPropagation();
         },
 

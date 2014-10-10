@@ -6,6 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">  
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-animate.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-route.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-touch.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -31,7 +32,11 @@
 <div id="header_spacer" ng-show="headerShow"></div>
 
 
-<div id="main" ng-view></div>
+  <div class="view-animate-container">
+<div id="main" ng-view class="view-animate"></div>
+    <!-- <div ng-view class="view-animate"></div> -->
+  </div>
+
 
 <div id="footer_spacer" ng-show="footerShow"></div>
 
