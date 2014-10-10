@@ -3,7 +3,6 @@ var cheeseApp = angular.module('cheeseApp',[
   'ngTouch',
 	'cheeseControllers',
   'ngAnimate'
-  // 'mobile-angular-ui'
 	]);
 
 cheeseApp.config(['$routeProvider',
@@ -110,7 +109,7 @@ cheeseApp.directive( "carouselItem", function($rootScope, $swipe){
           e.stopPropagation();
         },
 
-        move: function(coords, calouselId,a) {
+        move: function(coords, calouselId) {
           if( startX != null) {
             var deltaX = coords.x - startX;
             var deltaXRatio = deltaX / element[0].clientWidth;

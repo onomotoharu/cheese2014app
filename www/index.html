@@ -23,8 +23,8 @@
 <body>
 
 <div id="header" ng-show="headerShow">
-  <div class="header_button left {{headerIconLeftClass}}"><i class="fa {{headerIconLeft}}"></i></div>
-  <div class="header_button right {{headerIconRightClass}}"><i class="fa {{headerIconRight}}"></i></div>
+  <div class="header_button left {{headerIconLeftClass}}" ng-click="back()"> <i class="fa {{headerIconLeft}}"></i></div>
+  <div class="header_button right {{headerIconRightClass}}"> <i class="fa {{headerIconRight}}"></i></div>
   <img id="logo" src="./img/logo.png" ng-show="!title"/>  
   <p id="header_title">{{title}}</p>
 </div>
@@ -32,10 +32,9 @@
 <div id="header_spacer" ng-show="headerShow"></div>
 
 
-  <div class="view-animate-container">
-<div id="main" ng-view class="view-animate"></div>
-    <!-- <div ng-view class="view-animate"></div> -->
-  </div>
+<div class="view-animate-container">
+  <div id="main" ng-view class="{{isViewAnimate}}"></div>
+</div>
 
 
 <div id="footer_spacer" ng-show="footerShow"></div>

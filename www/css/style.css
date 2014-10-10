@@ -1,14 +1,18 @@
+/*
+==========
+transition
+==========
+*/
 .view-animate.ng-enter, .view-animate.ng-leave {
-  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.8s;
-  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.8s;
+  -webkit-transition:all cubic-bezier(0.25, 0.1, 0.25, 1.0) 0.3s;
+  transition:all cubic-bezier(0.25, 0.1, 0.25, 1.0)  0.3s;
   display:block;
   width:100%;
   position:absolute;
-  top:0;
+  top:53px;
   left:0;
   right:0;
   bottom:0;
-  padding:10px;
 }
 
 .view-animate.ng-enter {
@@ -21,6 +25,38 @@
   left:-100%;
 }
 
+
+.view-animate-back.ng-enter, .view-animate-back.ng-leave {
+  -webkit-transition:all cubic-bezier(0.25, 0.1, 0.25, 1.0) 0.3s;
+  transition:all cubic-bezier(0.25, 0.1, 0.25, 1.0)  0.3s;
+  display:block;
+  width:100%;
+  position:absolute;
+  top:53px;
+  left:0;
+  right:0;
+  bottom:0;
+}
+
+.view-animate-back.ng-enter {
+  left:-100%;
+}
+.view-animate-back.ng-enter.ng-enter-active {
+  left:0;
+}
+.view-animate-back.ng-leave.ng-leave-active {
+  left:100%;
+}
+
+
+
+
+
+/*
+==========
+common
+==========
+*/
 
 body{
   background: repeating-linear-gradient(
@@ -44,7 +80,11 @@ body{
 }
 
 #header_spacer{
-  height: 50px;
+  height: 53px;
+}
+
+.ng-enter#header_spacer{
+  height: -53px;
 }
 
 #header_title{
@@ -56,6 +96,7 @@ body{
 }
 
 #logo{
+  width:100px;
   height: 30px;
   display: block;
   margin-left: auto;
@@ -69,10 +110,12 @@ body{
 
 }
 .header_button.left{
+  width: 30px;
   margin-left: 10px;
   float: left;
 }
 .header_button.right{
+  width: 30px;
   margin-right: 10px;
   float: right;
 }
@@ -122,6 +165,8 @@ partials
 recommend
 ----------
 */
+
+
 .recommend_card{ 
   /*font-family: "ヒラギノ角ゴ Pro W3";  TODO:bodyとかhtmlにfont-familyが効かない*/
   width: 250px;
@@ -138,6 +183,14 @@ recommend
   top: 40px;
   left:25px;
   z-index: 100;
+}
+
+.ng-leave .recommend_card{
+  top: -13px;
+}
+
+.ng-enter .recommend_card{
+  top: -13px;
 }
 
 .recommend_card_img{
