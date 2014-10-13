@@ -1,69 +1,54 @@
-<div id="recipe_image">
-<img src="./img/omurice.jpg">
-<p id="recipe_title">意外と簡単？子供が喜ぶ！ふわとろオムライス♪<</p>
+<div id="recipe_card">
+    <div id="recipe_image_404" style="background-image: url('./img/img404.jpg')"></div>
+    <div id="recipe_image" style="background-image: url({{recipe.default_picture_name}})"></div>
+    <p id="recipe_title">{{recipe.name}}</p>
 </div>
+
 <p class="recipe_notes">ユーザにとってより適切だと判断した場合において、当サービスがレシピ内容の変更を行っている場合があります。</p>
-<div class="recipe_section" id="recipe_know_how">
-  <p class="recipe_subtitle">料理のコツ</p>
+
+
+<div  ng-show="loaded==false" class="recipe_section" id="recipe_know_how">
+  <p class="recipe_subtitle">読み込み中</p>
   <div class="recipe_subsection">
     <div class="box">
-      <ul>
-        <li><span>鶏肉のかわりにハムやベーコンをつかってもＯＫです。</span></li>
-        <li><span>チーズ好きさんは、卵にとろけるチーズを入れてもおいしいと思います。</span></li>
-      </ul>
+        <img src="./img/loading.png" class="recipe_loading">
     </div>
   </div>
 </div>
 
-<div class="recipe_section" id="recipe_ingridents">
+
+
+
+<div ng-show="recipe.tips!=undefined && recipe.tips.length>=0" class="recipe_section" id="recipe_know_how">
+  <p class="recipe_subtitle">料理のコツ</p>
+  <div class="recipe_subsection">
+    <div class="box">
+        <p>{{recipe.tips}}</p>
+    </div>
+  </div>
+</div>
+
+<div ng-show="recipe.foods!=undefined" class="recipe_section" id="recipe_ingridents">
   <p class="recipe_subtitle">材料</p>
   <div class="recipe_subsection">
-    <table>
-    <tr>
-    <th>卵</th>
-    <td>4個</td>
-    </tr>
-    <tr>
-    <th>温かいご飯</th>
-    <td>茶碗二杯</td>
-    </tr>
-    <tr>
-    <th>鶏もも肉</th>
-    <td>80g</td>
-    </tr>
-    <tr>
-    <th>玉ねぎ</th>
-    <td>1/4個</td>
-    </tr>
-    <tr>
-    <th>パセリのみじん切り</th>
-    <td>大さじ2</td>
-    </tr>
-    <tr>
-    <th>牛乳</th>
-    <td>大さじ2</td>
-    </tr>
-    <tr>
-    <th>バター、塩、こしょう、トマトケチャップ、サラダ油</th>
-    <td>各適量</td>
+    <table>    
+    <tr ng-repeat="ingredient in recipe.foods">
+    <th>{{ingredient.name}}</th>
+    <td>{{ingredient.amount}}</td>
     </tr>
     </table>
   </div>
 </div>
 
-<div class="recipe_section" id="recipe_process">
+<div ng-show="recipe.steps!=undefined" class="recipe_section" id="recipe_process">
   <p class="recipe_subtitle">つくり方</p>
   <div class="recipe_subsection">
     <table>
-    <tr>
-    <th>1</th>
-    <td>1人分ずつかける。</td>
+    <tr ng-repeat="step in recipe.steps">
+    <th>{{$index + 1}}</th>
+    <td>{{step}}</td>
     </tr>
-
-
-
-
     </table>  </div>
 </div>
 
-<div id="recipe_done" ng-click="done()">つくった！</div>
+<div ng-show="loaded" id="recipe_done" ng-click="done()">つくった！</div>

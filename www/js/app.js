@@ -2,8 +2,16 @@ var cheeseApp = angular.module('cheeseApp',[
 	'ngRoute',
   'ngTouch',
 	'cheeseControllers',
-  'ngAnimate'
-	]);
+  'ngAnimate',
+  'ngCordova'
+	]).run(function($rootScope, $location){
+    if(localStorage.numberOfLaunch != undefined) {
+        localStorage.numberOfLaunch++;
+    }else{
+        localStorage.numberOfLaunch = 0;
+    }
+    // $cordovaStatusbar.hide();
+});
 
 cheeseApp.config(['$routeProvider',
   function($routeProvider) {
@@ -12,7 +20,7 @@ cheeseApp.config(['$routeProvider',
         templateUrl: 'partials/recommend.html',
         controller: 'RecommendCtrl'
       }).
-      when('/recipe', {
+      when('/recipe/:recipe_id', {
         templateUrl: 'partials/recipe.html',
         controller: 'RecipeCtrl'
       }).
@@ -28,39 +36,86 @@ cheeseApp.config(['$routeProvider',
         templateUrl: 'partials/post.html',
         controller: 'PostCtrl'
       }).
+      when('/postafter', {
+        templateUrl: 'partials/postafter.html',
+        controller: 'PostafterCtrl'
+      }).
       when('/tutorial', {
         templateUrl: 'partials/tutorial.html',
-        controller: 'TutorialCtrl'
-      }).
-      when('/tutorial2', {
-        templateUrl: 'partials/tutorial2.html',
-        controller: 'TutorialCtrl'
-      }).
-      when('/tutorial3', {
-        templateUrl: 'partials/tutorial3.html',
-        controller: 'TutorialCtrl'
-      }).
-      when('/tutorial4', {
-        templateUrl: 'partials/tutorial4.html',
-        controller: 'TutorialCtrl'
-      }).
-      when('/tutorial5', {
-        templateUrl: 'partials/tutorial5.html',
-        controller: 'TutorialCtrl'
-      }).
-      when('/tutorial6', {
-        templateUrl: 'partials/tutorial6.html',
-        controller: 'TutorialCtrl'
-      }).
-      when('/tutorial7', {
-        templateUrl: 'partials/tutorial7.html',
         controller: 'TutorialCtrl'
       }).
       otherwise({
         redirectTo: '/'
       });
-  }]);
+}]);
 
+
+cheeseApp.config(function($httpProvider){
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+});
+
+//base64
+cheeseApp.factory('Base64', function() {
+    var keyStr = 'ABCDEFGHIJKLMNOP' +
+        'QRSTUVWXYZabcdef' +
+        'ghijklmnopqrstuv' +
+        'wxyz0123456789+/' +
+        '=';
+    return {
+        encode: function (input) {
+            var output = "";
+            var chr1, chr2, chr3 = "";
+            var enc1, enc2, enc3, enc4 = "";
+            var i = 0;
+ 
+            do {
+                chr1 = input.charCodeAt(i++);
+                chr2 = input.charCodeAt(i++);
+                chr3 = input.charCodeAt(i++);
+ 
+                enc1 = chr1 >> 2;
+                enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                enc4 = chr3 & 63;
+ 
+                if (isNaN(chr2)) {
+                    enc3 = enc4 = 64;
+                } else if (isNaN(chr3)) {
+                    enc4 = 64;
+                }
+ 
+                output = output +
+                    keyStr.charAt(enc1) +
+                    keyStr.charAt(enc2) +
+                    keyStr.charAt(enc3) +
+                    keyStr.charAt(enc4);
+                chr1 = chr2 = chr3 = "";
+                enc1 = enc2 = enc3 = enc4 = "";
+            } while (i < input.length);
+ 
+            return output;
+        }
+    };
+});
+
+//
+cheeseApp.factory('AuthorizationHeader', function (Base64, $http) {
+     return {
+        setCredentials: function () {
+            var encoded = Base64.encode(localStorage.api_token + ':' + localStorage.api_token_secret);
+            $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
+
+            localStorage.authdata = encoded;
+        },
+        clearCredentials: function () {
+            document.execCommand("ClearAuthenticationCache");
+            $http.defaults.headers.common.Authorization = 'Basic ';
+        }
+    };
+});
+
+
+//carousel, cardUI
 cheeseApp.directive( "carouselItem", function($rootScope, $swipe){
   return function(scope, element, attrs){
       var startX = null;
@@ -114,9 +169,9 @@ cheeseApp.directive( "carouselItem", function($rootScope, $swipe){
             var deltaX = coords.x - startX;
             var deltaXRatio = deltaX / element[0].clientWidth;
             $rootScope.likeOrNopeIndicator(deltaXRatio);
-            if (deltaXRatio > 0.6) {
+            if (deltaXRatio > 0.5) {
               endAction = "next";
-            } else if (deltaXRatio < -0.6){
+            } else if (deltaXRatio < -0.5){
               endAction = "prev";
             } else {
               endAction = null;
@@ -127,3 +182,5 @@ cheeseApp.directive( "carouselItem", function($rootScope, $swipe){
       });
     }
 });
+
+

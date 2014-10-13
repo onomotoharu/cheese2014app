@@ -190,6 +190,7 @@ recommend
   top: 40px;
   left:25px;
   z-index: 100;
+  overflow: hidden;
 }
 
 .ng-leave .recommend_card{
@@ -202,7 +203,10 @@ recommend
 
 .recommend_card_img{
   width: 250px;
-  border-radius: 4px;
+  height: 250px;
+  background-size:cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 .recommend_card_like{
@@ -240,7 +244,7 @@ recommend
   z-index: 1;
   width: 240px;
   background: rgb(255,255,255);
-  margin-top: -21px;
+  margin-top: -24px;
   margin-left : auto ; margin-right : auto ;
   padding: 10px;
   border: 1px solid rgb(200,200,200);
@@ -282,7 +286,7 @@ recommend
 
 .recommend_button.ng-click-active, 
 .recommend_button:active{
-  margin-top:25px;
+  margin-top:20px;
   box-shadow: 0px -1px 0px rgb(200,200,200);
   background-color: rgb(240,240,240);
 }
@@ -308,6 +312,27 @@ recommend
   color: rgb(180,56,58);
 }
 
+.recommend_loading {
+position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  height: 100px;
+  width: 100px;
+      -webkit-animation-name: rotateArea;
+    -webkit-animation-duration: 2.5s;
+    -webkit-animation-timing-function:linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes rotateArea {
+    0% {-webkit-transform: rotate(0deg);}
+    100% {-webkit-transform: rotate(360deg);}
+}
+
+
 /*
 ----------
 recipe
@@ -318,23 +343,41 @@ recipe
   color: rgb(150,150,150);  
 }
 
-#recipe_image{
+#recipe_card{
   width:260px;
   padding: 10px;
   margin:10px;
   margin-left : auto ; margin-right : auto ;
   border-radius: 6px;
   background: #fff;
-    border: 1px solid rgb(200,200,200);
+  border: 1px solid rgb(200,200,200);
   /*box-shadow: 0px 2px 3px rgba(50,50,50,0.4);*/
 }
 
-#recipe_image img{
-  width: 100%;
+
+#recipe_image_404{
+  width: 260px;
+  height: 260px;
+  background-size:cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   border-radius: 4px;
 }
 
+#recipe_image{
+  margin-top: -250px;
+  width: 260px;
+  height: 260px;
+  background-size:cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: 4px;
+}
+
+
+
 #recipe_title{
+  padding-top: 5px;
   font-size: 17px;
   color: rgb(150,150,150);    
 }
@@ -418,15 +461,43 @@ recipe
   color: rgb(255,255,255);
   background-color: rgb(39,176,59);
   border-radius: 6px;
-  box-shadow: 0px -2px 0px rgb(0,100,6) inset;
+  box-shadow: 0px -3px 0px rgb(0,100,6) inset;
   margin-bottom: 50px;
 }
+
+#recipe_done.ng-click-active,
+#recipe_done:active{
+  margin-top:13px;
+  color: rgb(150,150,150);
+  background-color: rgb(20,120,26);
+  box-shadow: 0px 2px 0px rgb(0,100,6) inset;
+}
+
 
 .recipe_notes {
   font-size: 12px;
   padding: 0 20px;
   color: rgb(188,188,188);
 }
+
+.recipe_loading {
+  display: block;
+  padding:10px;
+  margin-left : auto ; margin-right : auto ;
+  height: 100px;
+  width: 100px;
+      -webkit-animation-name: rotateArea;
+    -webkit-animation-duration: 2.5s;
+    -webkit-animation-timing-function:linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes rotateArea {
+    0% {-webkit-transform: rotate(0deg);}
+    100% {-webkit-transform: rotate(360deg);}
+}
+
+
 
 /*
 ----------
@@ -620,6 +691,7 @@ post
 */
 
 #post_section{
+  width: 300px;
   border: 1px solid rgb(200,200,200);
   background-color: rgb(255,255,255);
   margin-top: 10px;
@@ -627,12 +699,27 @@ post
   color: rgb(150,150,150)
 }
 
-
 #post_image{
+  margin: -100px;
   height: 100px;
   width: 100px;
   float: left;
   padding: 5px;
+  background-size:cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /*border-radius: 4px;  */
+}
+
+#post_image_404{
+  height: 100px;
+  width: 100px;
+  float: left;
+  padding: 5px;
+  background-size:cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /*border-radius: 4px;  */
 }
 
 #post_timestamp{
@@ -656,11 +743,13 @@ post
 }
 
 #post_comment{
+  display: block;
   -webkit-appearance: none;
   margin-top: 10px;
-  width: 280px;
+  width: 80%;
+  font-size: 20px;
   margin-left : auto ; margin-right : auto ;
-  height: 7em;
+  height: 5em;
   line-height: 18px;
   resize:none;
   border-radius: 6px;
@@ -681,6 +770,68 @@ post
   margin-bottom: 50px;
 }
 
+#post_button.ng-click-active,
+#post_button:active{
+  margin-top:23 px;
+  color: rgb(150,150,150);
+  background-color: rgb(20,120,26);
+  box-shadow: 0px 2px 0px rgb(0,100,6) inset;
+}
+
+/*
+----------
+postafter
+----------
+*/
+
+#postafter_image{
+  margin: -100px;
+  height: 100px;
+  width: 100px;
+  float: left;
+  padding: 5px;
+  background-size:cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /*border-radius: 4px;  */
+}
+
+#postafter_comment{
+  margin-top: 10px;
+  width: 80%;
+  min-height: 70px;
+  border-radius: 6px;
+  border: 1px solid rgb(200,200,200);
+  padding: 10px;
+  margin-left : auto ; margin-right : auto ;
+}
+
+
+#postafter_sns{
+  height: 46px;
+  background: rgb(255,255,255);
+
+}
+.postafter_twitter,.postafter_instagram{
+  border:solid rgb(200,200,200);
+  width: calc(50% - 6px);
+  height: 20px;
+  float: left;
+  font-size: 20px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  padding-left: 5px;
+  color: rgb(100,100,100);
+  /*text-align: center;*/
+}
+
+.postafter_twitter{
+  border-width:0px 1px 1px 1px;
+}
+
+.postafter_instagram{
+  border-width:0px 0px 1px 0px;
+}
 
 /*
 ----------
