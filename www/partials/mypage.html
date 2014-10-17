@@ -31,6 +31,16 @@
   <p ng-if="column=='hate'">作りたくない料理一覧</p>
 </div>
 
+
+<div class="mypage_recipe" ng-repeat="log in (column=='want')?profile.favorite_recipes:null ">
+  <img src="./img/omurice.jpg"></img>
+  <div class="mypage_recipe_detail">
+    <p class="mypage_recipe_timestamp">2014/07/22　5:49</p>
+    <p class="mypage_recipe_title">{{log.name}}</p>
+    <p class="mypage_recipe_ingridients">卵、ケチャップ、ごはん</p>
+  </div>
+</div>
+
 <div class="mypage_recipe">
   <img src="./img/omurice.jpg"></img>
   <div class="mypage_recipe_detail">

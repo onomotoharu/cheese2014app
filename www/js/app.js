@@ -5,12 +5,11 @@ var cheeseApp = angular.module('cheeseApp',[
   'ngAnimate',
   'ngCordova'
 	]).run(function($rootScope, $location){
-    if(localStorage.numberOfLaunch != undefined) {
-        localStorage.numberOfLaunch++;
+    if( isFinite(localStorage.launchTimes) ) {
+        localStorage.launchTimes++;
     }else{
-        localStorage.numberOfLaunch = 0;
+        localStorage.launchTimes = 0;
     }
-    // $cordovaStatusbar.hide();
 });
 
 cheeseApp.config(['$routeProvider',
@@ -98,21 +97,6 @@ cheeseApp.factory('Base64', function() {
     };
 });
 
-//
-cheeseApp.factory('AuthorizationHeader', function (Base64, $http) {
-     return {
-        setCredentials: function () {
-            var encoded = Base64.encode(localStorage.api_token + ':' + localStorage.api_token_secret);
-            $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
-
-            localStorage.authdata = encoded;
-        },
-        clearCredentials: function () {
-            document.execCommand("ClearAuthenticationCache");
-            $http.defaults.headers.common.Authorization = 'Basic ';
-        }
-    };
-});
 
 
 //carousel, cardUI
@@ -183,4 +167,75 @@ cheeseApp.directive( "carouselItem", function($rootScope, $swipe){
     }
 });
 
+//base64
+cheeseApp.factory('Base64', function() {
+    var keyStr = 'ABCDEFGHIJKLMNOP' +
+        'QRSTUVWXYZabcdef' +
+        'ghijklmnopqrstuv' +
+        'wxyz0123456789+/' +
+        '=';
+    return {
+        encode: function (input) {
+            var output = "";
+            var chr1, chr2, chr3 = "";
+            var enc1, enc2, enc3, enc4 = "";
+            var i = 0;
+ 
+            do {
+                chr1 = input.charCodeAt(i++);
+                chr2 = input.charCodeAt(i++);
+                chr3 = input.charCodeAt(i++);
+ 
+                enc1 = chr1 >> 2;
+                enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                enc4 = chr3 & 63;
+ 
+                if (isNaN(chr2)) {
+                    enc3 = enc4 = 64;
+                } else if (isNaN(chr3)) {
+                    enc4 = 64;
+                }
+ 
+                output = output +
+                    keyStr.charAt(enc1) +
+                    keyStr.charAt(enc2) +
+                    keyStr.charAt(enc3) +
+                    keyStr.charAt(enc4);
+                chr1 = chr2 = chr3 = "";
+                enc1 = enc2 = enc3 = enc4 = "";
+            } while (i < input.length);
+ 
+            return output;
+        }
+    };
+});
 
+cheeseApp.factory('guid',function(){
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+               .toString(16)
+               .substring(1);
+  }
+  return function() {
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+           s4() + '-' + s4() + s4() + s4();
+  };
+});
+
+
+//
+cheeseApp.factory('AuthorizationHeader', function (Base64, $http) {
+     return {
+        setCredentials: function () {
+            var encoded = Base64.encode(localStorage.api_token + ':' + localStorage.api_token_secret);
+            $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
+
+            localStorage.authdata = encoded;
+        },
+        clearCredentials: function () {
+            document.execCommand("ClearAuthenticationCache");
+            $http.defaults.headers.common.Authorization = 'Basic ';
+        }
+    };
+});

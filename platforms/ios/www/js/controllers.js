@@ -1,127 +1,279 @@
 var cheeseControllers = angular.module('cheeseControllers',[]);
+var endpoint = "https://private-8f017-cheesev2.apiary-mock.com/api/v1";
 
-cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $routeParams,$location){
+cheeseControllers.controller('TutorialCtrl',function($scope,$http,$rootScope, $routeParams, $location){
   $rootScope.headerShow = true;
   $rootScope.footerShow = false;
-  $rootScope.headerIconLeft = "fa-home"
-  $rootScope.headerIconRight = "fa-user"
-  $rootScope.headerIconLeftClass = ""
-  $rootScope.headerIconRightClass = ""  
+  $rootScope.headerIconLeft = ""
+  $rootScope.headerIconRight = ""
+  $scope.page = 1;
+  $scope.next= function(){
+    localStorage.numberOfLaunch++;
+    if(localStorage.api_token==undefined&&localStorage.api_token_secret==undefined){
+      var url = endpoint +  "/users/create";
+      $http.post(url).
+      success(function(data){
+        localStorage.api_token = data.api_token;
+        localStorage.api_token_secret = data.api_token_secret;
+      });      
+    }
 
-
-    $rootScope.carouselPrev = function(e) {
-      e.remove();
-      Instagram.isInstalled(function (err, installed) {
-          if (installed) {
-              alert("Instagram is installed");
-                    alert("hi");
-
-          } else {
-              alert("Instagram is not installed");
-          }
-      });
-    
-    };
-    
-    $rootScope.carouselNext = function(e) {
-      $rootScope.$apply(function() { $location.path("/recipe"); });
-    };
+    $location.path("/");
+  }
 });
 
 
-cheeseControllers.controller('RecipeCtrl',function($scope,$http,$rootScope, $routeParams, $location){
+cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $routeParams,$location){
+  $rootScope.headerShow = true;
+  $rootScope.footerShow = true;
+  $rootScope.isViewAnimate = ($rootScope.isNextViewAnimate == undefined)? " " : $rootScope.isNextViewAnimate;
+  $rootScope.headerIconLeft = "";
+  $rootScope.headerIconRight = "";
+  $rootScope.title = "";
+  $rootScope.location = "/";
+
+  //setup check
+  // if(Number(localStorage.numberOfStarts) >= 1){
+  //     $location.path('/tutorial');
+  // }
+
+  //fillCard
+  $scope.fillCardLoading = false;
+  $scope.fillCard = function(){
+    if($rootScope.recipes == undefined){
+      $rootScope.recipes = [];
+    }
+    if($rootScope.recipes.length < 5 && $scope.fillCardLoading==false){
+      $scope.fillCardLoading == true;
+      var url = endpoint +  "/recommend/?5";
+      $http.get(url).
+      success(function(data){
+        $rootScope.recipes = data.concat($scope.recipes);
+        $scope.fillCard();
+        $scope.fillCardLoading == false;
+      });
+    }
+  }
+
+
+  //init
+  $scope.fillCard();
+
+  // function fillCard
+  $scope.removeCard = function(e){
+    $rootScope.recipes.splice(e.attr("index"),1);
+    e.remove();
+    $scope.fillCard();
+  }
+
+  $rootScope.carouselPrev = function(e) {
+    $rootScope.isViewAnimate = "view-animate";
+    $rootScope.isNextViewAnimate = "view-animate";
+    var recipe_id = $scope.recipes[ e.attr("index") ].id;
+    $rootScope.$apply(function() { $location.path("/recipe/" + recipe_id); });
+    $scope.removeCard(e);
+  };
+    
+  $rootScope.carouselNext = function(e) {
+    $scope.removeCard(e);    
+  };
+
+
+
+  $rootScope.likeOrNopeIndicator = function(deltaXRatio){
+    if(deltaXRatio > 0 ){
+      $(".recommend_card_like").css('opacity',0);
+      $(".recommend_card_nope").css('opacity',deltaXRatio * 1.8);  
+    }else{
+      $(".recommend_card_like").css('opacity',deltaXRatio * -1.8);
+      $(".recommend_card_nope").css('opacity',0);
+    }
+  }
+
+  $rootScope.mypage = function(){
+    $rootScope.isViewAnimate = ""
+    $rootScope.isNextViewAnimate = ""
+    $location.path("/mypage");
+  }
+
+  $rootScope.home = function(){
+    $rootScope.isViewAnimate = ""
+    $rootScope.isNextViewAnimate = ""
+    $location.path("/");
+  }
+
+});
+
+
+cheeseControllers.controller('RecipeCtrl',function($scope,$http,$rootScope, $routeParams, $location, AuthorizationHeader){
+  $rootScope.headerShow = true;
+  $rootScope.footerShow = false;
+  $rootScope.title = "";
+  $rootScope.isViewAnimate = ($rootScope.isNextViewAnimate == undefined)? " " : $rootScope.isNextViewAnimate;
+  $rootScope.headerIconLeft = "fa-chevron-circle-left";
+  $rootScope.headerIconRight = "";
+
+  $scope.recipe_id = $routeParams.recipe_id;
+
+
+  var url = endpoint +  "/recipes/" + $scope.recipe_id +"/detail";
+
+  $scope.loaded = false;
+  $scope.recipe = {};
+  AuthorizationHeader.setCredentials();
+  $http.get(url).
+  success(function(data){
+    $scope.recipe = data;
+    $scope.recipe.id = $scope.recipe_id;
+    $scope.loaded = true;
+  });    
+
+  $scope.done = function(){
+    $rootScope.currentRecipe = $scope.recipe;
+    $rootScope.isViewAnimate = "view-animate";
+    $rootScope.isNextViewAnimate = "view-animate";
+    $location.path("/post");
+    // window.scrollTop();
+  }
+  $rootScope.back = function(){
+    $rootScope.isViewAnimate = "view-animate-back"
+    $rootScope.isNextViewAnimate = "view-animate-back"
+    $location.path("/");
+  }
+});
+
+cheeseControllers.controller('PostCtrl',function($scope,$http,$rootScope, $routeParams, $location, AuthorizationHeader){
   $rootScope.headerShow = true;
   $rootScope.footerShow = false;
   $rootScope.headerIconLeft = "fa-chevron-circle-left"
   $rootScope.headerIconRight = ""
-  $rootScope.headerIconLeftClass = ""
-  $rootScope.headerIconRightClass = ""
-  $scope.done = function(){
-    $location.path("/post");
-  }
-});
-
-cheeseControllers.controller('MypageCtrl',function($scope,$http,$rootScope, $routeParams){
-  $rootScope.headerShow = true;
-  $rootScope.footerShow = false;
-  $rootScope.headerIconLeft = "fa-home"
-  $rootScope.headerIconRight = "fa-cog"
-  $rootScope.headerIconLeftClass = ""
-  $rootScope.headerIconRightClass = ""
-  $rootScope.title="マイページ"
-});
-
-cheeseControllers.controller('SettingCtrl',function($scope,$http,$rootScope, $routeParams){
-  $rootScope.headerShow = true;
-  $rootScope.footerShow = false;
-  $rootScope.headerIconLeft = "fa-home"
-  $rootScope.headerIconRight = "fa-user"
-  $rootScope.headerIconLeftClass = ""
-  $rootScope.headerIconRightClass = ""
-  $rootScope.title="設定"
-});
-
-
-cheeseControllers.controller('PostCtrl',function($scope,$http,$rootScope, $routeParams, $location){
-  $rootScope.headerShow = true;
-  $rootScope.footerShow = false;
-  $rootScope.headerIconLeft = "fa-home"
-  $rootScope.headerIconRight = "fa-pencil-square"
-  $rootScope.headerIconLeftClass = ""
-  $rootScope.headerIconRightClass = "header_button_post"
   $rootScope.title="投稿"
+  $rootScope.isViewAnimate = ($rootScope.isNextViewAnimate == undefined)? " " : $rootScope.isNextViewAnimate;
 
-  $scope.star = "fa-star-o"
-  $scope.setstar = function(){
-    $scope.star = "fa-star"
+  $scope.recipe = $rootScope.currentRecipe;
+  $rootScope.currentRecipe = null;
+
+  $scope.star
+  $scope.setstar = function(stars){
+    $scope.star = stars;
   }
+
+
 
   $scope.post = function(){
-    $location.path("/mypage");
-    // alert(1)
-    // $window.location = "/mypage";
+    var url = endpoint +  "/recipes/" + $scope.recipe.id +"/made?" + $scope.star;
+    var data = {"comment" : $scope.comment};
+
+    AuthorizationHeader.setCredentials();
+    $http.post(url,data).
+    success(function(data){
+      $location.path("/postafter");
+      $rootScope.postInformation = {"recipe": $scope.recipe, "comment" : $scope.comment, "star" : $scope.star};
+    });    
+
   }
 
+  $rootScope.back = function(){
+    $rootScope.isViewAnimate = "view-animate-back"
+    $rootScope.isNextViewAnimate = "view-animate-back"
+    $location.path("/recipe/" + $scope.recipe.id);
+  }
 });
 
-cheeseControllers.controller('TutorialCtrl',function($scope,$http,$rootScope, $routeParams, $location){
-  // $rootScope.headerShow = true;
+
+cheeseControllers.controller('PostafterCtrl',function($scope,$http,$rootScope, $routeParams, $location, $cordovaSocialSharing){
+  $rootScope.headerShow = true;
   $rootScope.footerShow = false;
   $rootScope.headerIconLeft = ""
   $rootScope.headerIconRight = ""
-  $rootScope.headerIconLeftClass = ""
-  $rootScope.headerIconRightClass = ""
+  $rootScope.title="投稿しました！"
 
-  $scope.next2 = function(){
-    $location.path("/tutorial2");
+  $scope.postInformation = $rootScope.postInformation;
+  $rootScope.postInformation = null;
+
+  $scope.star = $scope.postInformation.star;
+
+
+  $scope.finish = function(){
+    $rootScope.isViewAnimate = "view-animate";
+    $rootScope.isNextViewAnimate = "view-animate";
+    $location.path("/mypage");
   }
 
-  $scope.next3 = function(){
-    $location.path("/tutorial3");
+
+  $scope.twitter = function(){
+    var comment = $scope.postInformation.comment + " / " + (new Array($scope.star+1).join("★")) + (new Array(6-$scope.star).join("☆")) +" / "+ $scope.postInformation.recipe.name + " #cheese";
+    $cordovaSocialSharing
+      .shareViaTwitter(comment, $scope.postInformation.recipe.default_picture_name)
+      .then(function(result) {
+        // Success! 
+      }, function(err) {
+        // An error occured. Show a message to the user
+      });
   }
 
-  $scope.next4 = function(){
-    $location.path("/tutorial4");
+});
+
+
+cheeseControllers.controller('MypageCtrl',function($scope,$http,$rootScope, $routeParams, $location){
+  $rootScope.headerShow = true;
+  $rootScope.footerShow = true;
+  $rootScope.headerIconLeft = ""
+  $rootScope.headerIconRight = "fa-cog"
+  $rootScope.title="マイページ"
+  $rootScope.location = "mypage";
+
+
+  $scope.column = "done";
+
+  $rootScope.setting = function(){
+    $rootScope.isViewAnimate = "view-animate";
+    $rootScope.isNextViewAnimate = "view-animate";
+    $location.path("/setting");
   }
 
-  $scope.next5 = function(){
-    $location.path("/tutorial5");
+  $rootScope.mypage = function(){
+    $rootScope.isViewAnimate = ""
+    $rootScope.isNextViewAnimate = ""
+    $location.path("/mypage");
   }
 
-  $scope.next6 = function(){
-    $location.path("/tutorial6");
-  }
-
-  $scope.next7 = function(){
-    $location.path("/tutorial7");
-  }
-
-  $scope.recommend = function(){
+  $rootScope.home = function(){
+    $rootScope.isViewAnimate = ""
+    $rootScope.isNextViewAnimate = ""
     $location.path("/");
   }
 
+});
+
+cheeseControllers.controller('SettingCtrl',function($scope,$http,$rootScope, $routeParams, $location){
+  $rootScope.headerShow = true;
+  $rootScope.footerShow = false;
+  $rootScope.headerIconLeft = "fa-chevron-circle-left"
+  $rootScope.headerIconRight = ""
+  $rootScope.title="設定"
+
+  $rootScope.back = function(){
+    $rootScope.isViewAnimate = "view-animate-back"
+    $rootScope.isNextViewAnimate = "view-animate-back"
+    $location.path("/mypage");
+   }
+
+   $rootScope.tutorial = function(){
+    $location.path("/tutorial");
+   }
+
+   $rootScope.logout = function(){
+    localStorage.clear();
+    $location.path("/tutorial");
+
+   }
 
 });
+
+
+
+
 
 
 

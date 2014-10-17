@@ -1,20 +1,22 @@
 <div id="post_section">
-  <img id="post_image" src="./img/omurice.jpg"></img>
+  <div id="post_image_404" style="background-image: url('./img/img404.jpg')"></div>
+  <div id="post_image" style="background-image: url({{recipe.default_picture_name}})"></div>
+
   <p id="post_timestamp">2014/07/29 5:18</p>
-  <p id="post_title">意外と簡単？子供が喜ぶ！ふわとろオムライス♪</p>
+  <p id="post_title">{{recipe.name}}</p>
 
   <div class="clear"></div>
 
-  <div id="post_stars" ng-click="setstar()">
-    <i class="fa {{star}}"></i>
-    <i class="fa {{star}}"></i>
-    <i class="fa {{star}}"></i>
-    <i class="fa {{star}}"></i>
-    <i class="fa fa-star-o"></i>
+  <div id="post_stars">
+    <i class="fa" ng-class="star>=1? 'fa-star':'fa-star-o' " ng-click="setstar(1)"></i>
+    <i class="fa" ng-class="star>=2? 'fa-star':'fa-star-o' " ng-click="setstar(2)"></i>
+    <i class="fa" ng-class="star>=3? 'fa-star':'fa-star-o' " ng-click="setstar(3)"></i>
+    <i class="fa" ng-class="star>=4? 'fa-star':'fa-star-o' " ng-click="setstar(4)"></i>
+    <i class="fa" ng-class="star>=5? 'fa-star':'fa-star-o' " ng-click="setstar(5)"></i>
   </div>
-  <textarea id="post_comment"></textarea>
+  <textarea id="post_comment" ng-model="comment"></textarea>
 
 </div>
 
 
-<div id="recipe_done" ng-click="post()">投稿！</div>
+<div id="post_button" ng-click="post()">投稿！</div>

@@ -1,4 +1,4 @@
-<div class="setting_section_box">
+<!-- <div class="setting_section_box">
   <p class="setting_section_title">アカウント</p>
   <div class="setting_section social">
     <i class="fa fa-twitter"></i>Sign in with twitter<i class="fa fa-angle-right"></i>
@@ -6,6 +6,14 @@
     <i class="fa fa-instagram"></i>hogehoge<i class="fa fa-angle-right"></i>
   </div>
 </div>
+ -->
+<div class="setting_section_box">
+  <p class="setting_section_title">チュートリアル</p>
+  <div class="setting_section note" ng-click="tutorial()">
+  チュートリアルを見る  
+  </div>
+</div>
+
 
 <div class="setting_section_box">
   <p class="setting_section_title">運営</p>
@@ -26,4 +34,4 @@
 </div>
 
 
-<div id="setting_logout">ログアウト</div>
+<div id="setting_logout" ng-click="logout()" >ログアウト</div>

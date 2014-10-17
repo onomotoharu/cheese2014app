@@ -1,28 +1,34 @@
 <div id="mypage_selector">
-  <div class="mypage_selector_button selected">
+  <div class="mypage_selector_button" ng-class="column=='done'?  'selected' : '' " ng-click="column = 'done' ">
     <i class="fa fa-cutlery"></i>
     <p>つくった</p>
   </div>
   
   <span class="mypage_selector_section_line">|</span>
   
-  <div class="mypage_selector_button">
+  <div class="mypage_selector_button" ng-class="column=='want'?  'selected' : '' " ng-click="column = 'want' ">
     <i class="fa fa-coffee"></i>
     <p>つくりたい</p>
   </div>
   
   <span class="mypage_selector_section_line">|</span>
   
-  <div class="mypage_selector_button">
+  <div class="mypage_selector_button" ng-class="column=='hate'?  'selected' : '' " ng-click="column = 'hate' ">
     <i class="fa fa-trash-o"></i>
     <p>つくりたくない</p>
   </div>
 </div>
 
 <div id="mypage_title">
-  <div id="mypage_title_logo"><i class="fa fa-cutlery"></i></div>
-  <div id="mypage_title_logo_dummy"></div>
-  <p>作った料理一覧</p>
+  <div id="mypage_title_logo">
+    <i ng-if="column=='done'"class="fa fa-cutlery"></i>
+  <i ng-if="column=='want'"class="fa fa-coffee"></i>
+  <i ng-if="column=='hate'"class="fa fa-trash-o"></i>
+</div>
+<div id="mypage_title_logo_dummy"></div>
+  <p ng-if="column=='done'">作った料理一覧</p>
+  <p ng-if="column=='want'">作りたい料理一覧</p>
+  <p ng-if="column=='hate'">作りたくない料理一覧</p>
 </div>
 
 <div class="mypage_recipe">

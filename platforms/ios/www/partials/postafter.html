@@ -1,0 +1,31 @@
+<div id="post_section">
+  <div id="post_image_404" style="background-image: url('./img/img404.jpg')"></div>
+  <div id="postafter_image" ng-src="{{postInformation.recipe.default_picture_name}}"></div>
+  <p id="post_timestamp">2014/07/29 5:18</p>
+  <p id="post_title">{{postInformation.recipe.name}}</p>
+
+  <div class="clear"></div>
+
+  <div id="post_stars">
+    <i class="fa" ng-class="star>=1? 'fa-star':'fa-star-o' " ng-click="setstar(1)"></i>
+    <i class="fa" ng-class="star>=2? 'fa-star':'fa-star-o' " ng-click="setstar(2)"></i>
+    <i class="fa" ng-class="star>=3? 'fa-star':'fa-star-o' " ng-click="setstar(3)"></i>
+    <i class="fa" ng-class="star>=4? 'fa-star':'fa-star-o' " ng-click="setstar(4)"></i>
+    <i class="fa" ng-class="star>=5? 'fa-star':'fa-star-o' " ng-click="setstar(5)"></i>
+  </div>
+  <p id="postafter_comment">{{postInformation.comment}}</p>
+
+</div>
+
+<div id="postafter_sns">
+  <div class="postafter_twitter" ng-click="twitter()">
+    <i class="fa fa-twitter"></i>Twitter
+  </div>
+  <div class="postafter_instagram">
+    Coming soon...
+    <!-- <i class="fa fa-instagram"></i>Instagram -->
+  </div>
+</div>
+
+
+<div id="post_button" ng-click="finish()">マイページへ</div>

@@ -1,3 +1,67 @@
+/*
+==========
+transition
+==========
+*/
+.view-animate.ng-enter, .view-animate.ng-leave {
+  -webkit-transition:all cubic-bezier(0.25, 0.1, 0.25, 1.0) 0.3s;
+  transition:all cubic-bezier(0.25, 0.1, 0.25, 1.0)  0.3s;
+  display:block;
+  width:100%;
+  position:absolute;
+  top:53px;
+  left:0;
+  right:0;
+  bottom:0;
+}
+
+.view-animate.ng-enter {
+  left:100%;
+}
+.view-animate.ng-enter.ng-enter-active {
+  left:0;
+}
+.view-animate.ng-leave.ng-leave-active {
+  left:-100%;
+}
+
+
+.view-animate-back.ng-enter, .view-animate-back.ng-leave {
+  -webkit-transition:all cubic-bezier(0.25, 0.1, 0.25, 1.0) 0.3s;
+  transition:all cubic-bezier(0.25, 0.1, 0.25, 1.0)  0.3s;
+  display:block;
+  width:100%;
+  position:absolute;
+  top:53px;
+  left:0;
+  right:0;
+  bottom:0;
+}
+
+.view-animate-back.ng-enter {
+  left:-100%;
+}
+.view-animate-back.ng-enter.ng-enter-active {
+  left:0;
+}
+.view-animate-back.ng-leave.ng-leave-active {
+  left:100%;
+}
+
+
+
+
+
+/*
+==========
+common
+==========
+*/
+
+i{
+  display: block;
+}
+
 body{
   background: repeating-linear-gradient(
     90deg,
@@ -6,6 +70,7 @@ body{
     rgb(255,255,255) 8px,
     rgb(255,255,255) 16px
   );
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
 }
 
 #header{
@@ -14,13 +79,17 @@ body{
   height: 30px;
   background: rgb(239,197,45);
   box-shadow: 0px -2px 0px rgb(209,167,9) inset;
-  padding-top: 13px;
+  padding-top: 10px;
   padding-bottom: 13px;
   z-index: 200; 　/*　主にカードページ用 */
 }
 
 #header_spacer{
-  height: 56px;
+  height: 53px;
+}
+
+.ng-enter#header_spacer{
+  height: -53px;
 }
 
 #header_title{
@@ -32,6 +101,7 @@ body{
 }
 
 #logo{
+  width:100px;
   height: 30px;
   display: block;
   margin-left: auto;
@@ -45,10 +115,12 @@ body{
 
 }
 .header_button.left{
+  width: 30px;
   margin-left: 10px;
   float: left;
 }
 .header_button.right{
+  width: 30px;
   margin-right: 10px;
   float: right;
 }
@@ -81,9 +153,15 @@ div#main,#header_title{
 .footer_button{
   color: rgb(129,117,90);
   text-shadow: 0px 1px 0px rgb(113,99,74);  
-  width: 25%;
+  width:50%;
   text-align: center;
   float: left;
+}
+
+.footer_button.selected{
+  color: rgb(255,255,255);
+  text-shadow: 0px 1px 0px rgb(213,199,174);  
+
 }
 
 /*
@@ -98,12 +176,14 @@ partials
 recommend
 ----------
 */
+
+
 .recommend_card{ 
   /*font-family: "ヒラギノ角ゴ Pro W3";  TODO:bodyとかhtmlにfont-familyが効かない*/
   width: 250px;
   height: 350px;
   background: rgb(255,255,255);
-  margin-top: 30px;
+  margin-top: 25px;
   margin-bottom: 20px;
   margin-left : auto ; margin-right : auto ;
   padding: 10px;
@@ -111,15 +191,46 @@ recommend
   /*box-shadow: 0px 0px 10px rgba(200,200,200,0.4); 消したほうが若干速いので*/
   border-radius: 6px;
   position: absolute;
-  top: 50px;
+  top: 40px;
   left:25px;
   z-index: 100;
+  overflow: hidden;
+}
+
+.ng-leave .recommend_card{
+  top: -13px;
+}
+
+.ng-enter .recommend_card{
+  top: -13px;
 }
 
 .recommend_card_img{
   width: 250px;
-  border-radius: 4px;
+  height: 250px;
+  background-size:cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
+
+.recommend_card_like{
+  position: relative;
+  width: 120px;
+  top: 30px;
+  float: left;
+  z-index: 200;
+  opacity: 0;
+}
+
+.recommend_card_nope{
+  position: relative;
+  width: 125px;
+  top:40px;
+  float: right;
+  z-index: 200;
+  opacity: 0;
+}
+
 .recommend_card_title{
   font-size: 20px;
   color: rgb(126,126,126);
@@ -129,7 +240,7 @@ recommend
 }
 
 .recommend_card_spacer{ 
-  height: 367px;
+  height: 340px;
 }
 
 .recommend_card_dummy_1{  
@@ -137,7 +248,7 @@ recommend
   z-index: 1;
   width: 240px;
   background: rgb(255,255,255);
-  margin-top: -37px;
+  margin-top: -24px;
   margin-left : auto ; margin-right : auto ;
   padding: 10px;
   border: 1px solid rgb(200,200,200);
@@ -149,7 +260,7 @@ recommend
   z-index: 0;
   width: 230px;
   background: rgb(255,255,255);
-  margin-top: -17px;
+  margin-top: -19px;
   margin-left : auto ; margin-right : auto ;
   padding: 10px;
   border: 1px solid rgb(200,200,200);
@@ -167,7 +278,9 @@ recommend
   color: rgb(126,126,126);
   width: 85px;
   height: 85px;
-  margin:20px;
+  margin:10px;
+  margin-left: 20px;
+  margin-right: 20px;
   border-radius: 100%;
   box-shadow: 0px 3px 0px rgb(200,200,200);
   float: left;
@@ -177,7 +290,7 @@ recommend
 
 .recommend_button.ng-click-active, 
 .recommend_button:active{
-  margin-top:25px;
+  margin-top:20px;
   box-shadow: 0px -1px 0px rgb(200,200,200);
   background-color: rgb(240,240,240);
 }
@@ -203,6 +316,27 @@ recommend
   color: rgb(180,56,58);
 }
 
+.recommend_loading {
+position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  height: 100px;
+  width: 100px;
+      -webkit-animation-name: rotateArea;
+    -webkit-animation-duration: 2.5s;
+    -webkit-animation-timing-function:linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes rotateArea {
+    0% {-webkit-transform: rotate(0deg);}
+    100% {-webkit-transform: rotate(360deg);}
+}
+
+
 /*
 ----------
 recipe
@@ -213,22 +347,41 @@ recipe
   color: rgb(150,150,150);  
 }
 
-#recipe_image{
+#recipe_card{
   width:260px;
   padding: 10px;
   margin:10px;
   margin-left : auto ; margin-right : auto ;
   border-radius: 6px;
   background: #fff;
-  box-shadow: 0px 2px 3px rgba(50,50,50,0.4);
+  border: 1px solid rgb(200,200,200);
+  /*box-shadow: 0px 2px 3px rgba(50,50,50,0.4);*/
 }
 
-#recipe_image img{
-  width: 100%;
+
+#recipe_image_404{
+  width: 260px;
+  height: 260px;
+  background-size:cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   border-radius: 4px;
 }
 
+#recipe_image{
+  margin-top: -250px;
+  width: 260px;
+  height: 260px;
+  background-size:cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: 4px;
+}
+
+
+
 #recipe_title{
+  padding-top: 5px;
   font-size: 17px;
   color: rgb(150,150,150);    
 }
@@ -312,15 +465,43 @@ recipe
   color: rgb(255,255,255);
   background-color: rgb(39,176,59);
   border-radius: 6px;
-  box-shadow: 0px -2px 0px rgb(0,100,6) inset;
+  box-shadow: 0px -3px 0px rgb(0,100,6) inset;
   margin-bottom: 50px;
 }
+
+#recipe_done.ng-click-active,
+#recipe_done:active{
+  margin-top:13px;
+  color: rgb(150,150,150);
+  background-color: rgb(20,120,26);
+  box-shadow: 0px 2px 0px rgb(0,100,6) inset;
+}
+
 
 .recipe_notes {
   font-size: 12px;
   padding: 0 20px;
   color: rgb(188,188,188);
 }
+
+.recipe_loading {
+  display: block;
+  padding:10px;
+  margin-left : auto ; margin-right : auto ;
+  height: 100px;
+  width: 100px;
+      -webkit-animation-name: rotateArea;
+    -webkit-animation-duration: 2.5s;
+    -webkit-animation-timing-function:linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes rotateArea {
+    0% {-webkit-transform: rotate(0deg);}
+    100% {-webkit-transform: rotate(360deg);}
+}
+
+
 
 /*
 ----------
@@ -514,6 +695,7 @@ post
 */
 
 #post_section{
+  width: 300px;
   border: 1px solid rgb(200,200,200);
   background-color: rgb(255,255,255);
   margin-top: 10px;
@@ -521,12 +703,27 @@ post
   color: rgb(150,150,150)
 }
 
-
 #post_image{
+  margin: -100px;
   height: 100px;
   width: 100px;
   float: left;
   padding: 5px;
+  background-size:cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /*border-radius: 4px;  */
+}
+
+#post_image_404{
+  height: 100px;
+  width: 100px;
+  float: left;
+  padding: 5px;
+  background-size:cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /*border-radius: 4px;  */
 }
 
 #post_timestamp{
@@ -550,17 +747,95 @@ post
 }
 
 #post_comment{
+  display: block;
   -webkit-appearance: none;
   margin-top: 10px;
-  width: 280px;
+  width: 80%;
+  font-size: 20px;
   margin-left : auto ; margin-right : auto ;
-  height: 7em;
+  height: 5em;
   line-height: 18px;
   resize:none;
   border-radius: 6px;
 }
 
+#post_button{
+  margin-top: 20px;
+  margin-left : auto ; margin-right : auto ;
+  width: 180px;
+  text-align: center;
+  height: 20px;
+  padding: 13px;
+  font-size: 20px;
+  color: rgb(255,255,255);
+  background-color: rgb(39,176,59);
+  border-radius: 6px;
+  box-shadow: 0px -2px 0px rgb(0,100,6) inset;
+  margin-bottom: 50px;
+}
 
+#post_button.ng-click-active,
+#post_button:active{
+  margin-top:23 px;
+  color: rgb(150,150,150);
+  background-color: rgb(20,120,26);
+  box-shadow: 0px 2px 0px rgb(0,100,6) inset;
+}
+
+/*
+----------
+postafter
+----------
+*/
+
+#postafter_image{
+  margin: -100px;
+  height: 100px;
+  width: 100px;
+  float: left;
+  padding: 5px;
+  background-size:cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /*border-radius: 4px;  */
+}
+
+#postafter_comment{
+  margin-top: 10px;
+  width: 80%;
+  min-height: 70px;
+  border-radius: 6px;
+  border: 1px solid rgb(200,200,200);
+  padding: 10px;
+  margin-left : auto ; margin-right : auto ;
+}
+
+
+#postafter_sns{
+  height: 46px;
+  background: rgb(255,255,255);
+
+}
+.postafter_twitter,.postafter_instagram{
+  border:solid rgb(200,200,200);
+  width: calc(50% - 6px);
+  height: 20px;
+  float: left;
+  font-size: 20px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  padding-left: 5px;
+  color: rgb(100,100,100);
+  /*text-align: center;*/
+}
+
+.postafter_twitter{
+  border-width:0px 1px 1px 1px;
+}
+
+.postafter_instagram{
+  border-width:0px 0px 1px 0px;
+}
 
 /*
 ----------

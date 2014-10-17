@@ -1,4 +1,28 @@
 <div class="tutorial">
-	<div class="howto_start">あなたの料理の記録をもとに<br/>ぴったりのレシピをおすすめします</div>
+  <div ng-show="page!=1 && page!= 7" class="movie"><img ng-src='./gifmovie/{{ ["1_move.gif", "2_not.gif", "3_want.gif", "4_cooked.gif", "5_contribute.gif"][page-2] }}'></img></div>
+
+  <div ng-class="(page==1)?'howto_start':(page==4)?'howto4':(page==7)?'howto_end':'howto' " style="white-space: pre;">
+{{
+['あなたの料理の記録をもとに
+ぴったりのレシピをおすすめします',
+'レシピはカード形式になっており
+フリックで操作できます',
+'今はつくらないレシピは
+左にフリック',
+'つくりたいと思ったら
+右にフリック
+レシピページに移動します',
+'料理をしたら
+つくった！を押しましょう',
+'投稿ボタンを押すと
+マイページに記録されます',
+'これでチュートリアルは
+おしまいです
+
+さあ、あなたの好みを
+教えてください！'][page-1]
+}}
 </div>
-<div class="tuto_btn" ng-click="next2()">次へ</div>
+
+<div ng-show="page<7" class="tuto_btn" ng-click="page = page + 1">次へ</div>
+<div ng-show="page>=7" class="tuto_btn" ng-click="next()">次へ</div>

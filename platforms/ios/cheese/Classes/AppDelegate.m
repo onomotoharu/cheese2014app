@@ -67,6 +67,15 @@
 
 #if __has_feature(objc_arc)
         self.window = [[UIWindow alloc] initWithFrame:screenBounds];
+    
+//    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+//        [application setStatusBarStyle:UIStatusBarStyleLightContent];
+//        self.window.clipsToBounds =YES;
+//        self.window.frame =  CGRectMake(0,20,self.window.frame.size.width,self.window.frame.size.height-20);
+//    }
+    
+    
+    
 #else
         self.window = [[[UIWindow alloc] initWithFrame:screenBounds] autorelease];
 #endif
@@ -88,12 +97,6 @@
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
-        [application setStatusBarStyle:UIStatusBarStyleLightContent];
-        self.window.clipsToBounds =YES;
-        self.window.frame =  CGRectMake(0,20,self.window.frame.size.width,self.window.frame.size.height-20);
-    }
-    
     return YES;
 }
 

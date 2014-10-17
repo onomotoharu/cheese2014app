@@ -11,7 +11,10 @@
 
     <access origin="*" />
 
-    <!-- <preference name="StatusBarBackgroundColor" value="#efc52d" /> -->
-    <preference name="StatusBarOverlaysWebView" value="false" /> 
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#D7B128" />
+    
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="webviewbounce" value="false" />
 
 </widget>
