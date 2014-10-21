@@ -239,3 +239,15 @@ cheeseApp.factory('AuthorizationHeader', function (Base64, $http) {
         }
     };
 });
+
+cheeseApp.factory('DateFormatter', function(){
+    return{
+        toString: function(dateStr){
+            var created_at = dateStr.split("T")[0];
+            var hour = dateStr.split("T")[1].split(":")[0];
+            var minute = dateStr.split("T")[1].split(":")[1];
+            return created_at + " " + hour + ":" + minute;
+        }
+    }
+
+});

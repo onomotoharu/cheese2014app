@@ -11,7 +11,7 @@
     <div ng-repeat="recipe in recipes" class="recommend_card" carousel-item index="{{$index}}">
       <div class="recommend_card_img" style="background-image: url({{recipe.image_url}})"></div>
       <p class="recommend_card_title">{{recipe.name}}</p>
-      <p class="recommend_card_ingridients">{{recipe.ingredients.join(", ")}}</p>
+      <p class="recommend_card_ingridients" >{{recipe.screen_ingredients}}</p>
     </div>
     
   </div>
@@ -22,12 +22,12 @@
 <div class="recommend_card_dummy_2"></div>
 
 <div id="recommend_button_box">
-  <div class="recommend_button like">
+<!--   <div class="recommend_button like">
     <i class="fa fa-thumbs-o-up" ng-click></i>
     <p>つくりたい</p>
   </div>
   <div class="recommend_button nope">
     <i class="fa fa-thumbs-o-down" ng-click></i>
     <p>つくりたくない</p>
-  </div>
+  </div> -->
 </div> 

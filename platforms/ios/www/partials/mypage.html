@@ -31,11 +31,12 @@
   <p ng-if="column=='hate'">作りたくない料理一覧</p>
 </div>
 
-<div class="mypage_recipe">
-  <img src="./img/omurice.jpg"></img>
+
+<div class="mypage_recipe" ng-repeat="list in (column=='done')?lists.100:(column=='want')?lists.301:(column=='hate')?lists.302:null  ">
+  <img ng-click="recipe(list.id)" ng-src="{{list.default_picture_name}}"></img>
   <div class="mypage_recipe_detail">
-    <p class="mypage_recipe_timestamp">2014/07/22　5:49</p>
-    <p class="mypage_recipe_title">意外と簡単？子供が喜ぶ！ふわとろオムライス♪</p>
-    <p class="mypage_recipe_ingridients">卵、ケチャップ、ごはん</p>
+    <p ng-if="column=='done'" class="mypage_recipe_timestamp">{{dateFormatter(list.made_at)}}</p>
+    <p class="mypage_recipe_title">{{list.name}}</p>
+    <!-- <p class="mypage_recipe_ingridients">卵、ケチャップ、ごはん</p> -->
   </div>
 </div>

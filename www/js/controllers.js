@@ -11,9 +11,9 @@ cheeseControllers.controller('TutorialCtrl',function($scope,$http,$rootScope, $r
   $rootScope.headerIconRight = ""
   $rootScope.title = "";
   $scope.page = 1;
-  $scope.next= function(){
-    localStorage.launchTimes++;
 
+
+  $scope.signIn = function(){
     if(localStorage.api_token==undefined&&localStorage.api_token_secret==undefined){
       var url = endpoint +  "/users/create";
       var screen_id = guid();
@@ -31,12 +31,19 @@ cheeseControllers.controller('TutorialCtrl',function($scope,$http,$rootScope, $r
         console.log(status);
       });      
     }
+  }
+  $scope.signIn();
+
+
+  $scope.next= function(){
+    localStorage.launchTimes++;
+    $scope.signIn();
     $location.path("/");
   }
 });
 
 
-cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $routeParams,$location, AuthorizationHeader){ 
+cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $routeParams,$location, AuthorizationHeader, $sce){ 
   $rootScope.headerShow = true;
   $rootScope.footerShow = true;
   $rootScope.isViewAnimate = ($rootScope.isNextViewAnimate == undefined)? " " : $rootScope.isNextViewAnimate;
@@ -51,20 +58,32 @@ cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $
   }
 
   //fillCard
-  $scope.fillCardLoading = false;
   $scope.fillCard = function(){
     if($rootScope.recipes == undefined){
       $rootScope.recipes = [];
     }
-    if($rootScope.recipes.length < 5 && $scope.fillCardLoading==false){
-      $scope.fillCardLoading == true;
-      var url = endpoint +  "/recommend/?limit=5";
+    console.log($rootScope.recipes.length)
+
+
+    if($rootScope.recipes.length < 5){
+      var url = endpoint +  "/recommend/?limit=20";
       AuthorizationHeader.setCredentials();
       $http.get(url).
       success(function(data){
+        console.log(data);
+
+        $.each(data,function(){
+          this.image_url = $sce.trustAsResourceUrl(imgSrc + this.image_url);
+
+          var screen_ingredients = "";
+          $.each(this.ingredients, function(){
+            screen_ingredients += this.screen_name+ ", ";
+          });
+          this.screen_ingredients = screen_ingredients;
+
+        });
+
         $rootScope.recipes = data.concat($scope.recipes);
-        $scope.fillCard();
-        $scope.fillCardLoading == false;
       })
       .error(function(data,status){
         console.log(data);
@@ -93,6 +112,14 @@ cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $
   };
     
   $rootScope.carouselNext = function(e) {
+    var recipe_id = $scope.recipes[ e.attr("index") ].id;
+    var url = endpoint +  "/recipes/" + recipe_id +"/negative";
+    AuthorizationHeader.setCredentials();
+    $http.post(url).
+    success(function(data){
+      // console.log("fav!")
+    });
+
     $scope.removeCard(e);    
   };
 
@@ -130,9 +157,7 @@ cheeseControllers.controller('RecipeCtrl',function($scope,$http,$rootScope, $rou
   $rootScope.headerIconLeft = "fa-chevron-circle-left";
   $rootScope.headerIconRight = "";
 
-  // $scope.recipe_id = $routeParams.recipe_id;
-
-  $scope.recipe_id = "1000000032";
+  $scope.recipe_id = $routeParams.recipe_id;
 
   var url = endpoint +  "/recipes/" + $scope.recipe_id +"/detail";
 
@@ -187,7 +212,7 @@ cheeseControllers.controller('PostCtrl',function($scope,$http,$rootScope, $route
 
   $scope.post = function(){
     var url = endpoint +  "/recipes/" + $scope.recipe.id +"/made/?" + $scope.star;
-    var data = {"comment" : $scope.comment};
+    var data = {"comment" : $scope.comment,"rate":$scope.star};
 
     AuthorizationHeader.setCredentials();
     $http.post(url,data).
@@ -196,7 +221,6 @@ cheeseControllers.controller('PostCtrl',function($scope,$http,$rootScope, $route
       $location.path("/postafter");
       $rootScope.postInformation = {"recipe": $scope.recipe, "comment" : $scope.comment, "star" : $scope.star};
     });    
-
   }
 
   $rootScope.back = function(){
@@ -228,7 +252,11 @@ cheeseControllers.controller('PostafterCtrl',function($scope,$http,$rootScope, $
 
 
   $scope.twitter = function(){
-    var comment = $scope.postInformation.comment + " / " + (new Array($scope.star+1).join("★")) + (new Array(6-$scope.star).join("☆")) +" / "+ $scope.postInformation.recipe.name + " #cheese";
+    var postcomment =  ($scope.postInformation.comment.length > 1)? $scope.postInformation.comment + " / " : "";
+    var comment = postcomment + (new Array($scope.star+1).join("★")) + (new Array(6-$scope.star).join("☆")) +" / "+ $scope.postInformation.recipe.name + " #cheese";
+
+    console.log($scope.postInformation.recipe.default_picture_name);
+
     $cordovaSocialSharing
       .shareViaTwitter(comment, $scope.postInformation.recipe.default_picture_name)
       .then(function(result) {
@@ -241,7 +269,7 @@ cheeseControllers.controller('PostafterCtrl',function($scope,$http,$rootScope, $
 });
 
 
-cheeseControllers.controller('MypageCtrl',function($scope,$http,$rootScope, $routeParams, $location, AuthorizationHeader){
+cheeseControllers.controller('MypageCtrl',function($scope,$http,$rootScope, $routeParams, $location, AuthorizationHeader, $sce, DateFormatter){
   $rootScope.headerShow = true;
   $rootScope.footerShow = true;
   $rootScope.headerIconLeft = ""
@@ -249,17 +277,31 @@ cheeseControllers.controller('MypageCtrl',function($scope,$http,$rootScope, $rou
   $rootScope.title="マイページ"
   $rootScope.location = "mypage";
 
+  $scope.dateFormatter =  DateFormatter.toString;
+
+
   var url = endpoint + "/my/checked_recipes";
-  // var url = endpoint + "/users/" + localStorage.screen_id + "/profile";
-  // /api/v1/my/checked_recipes
   AuthorizationHeader.setCredentials();
-  $http.post(url).
+  $http.get(url).
   success(function(data){
-    $scope.profile = data;
+    $scope.lists = data;
+
     console.log(data);
+
+    var types = ["100", "301", "302"];
+    for (var i = types.length - 1; i >= 0; i--) {
+      $scope.lists[types[i]].reverse();
+
+      $.each( $scope.lists[types[i]], function(){
+        this.default_picture_name = $sce.trustAsResourceUrl(imgSrc + this.default_picture_name);
+      } );
+    };    
+
   });  
 
-  $scope.column = "done"; //done, want, hate
+  if($scope.column == undefined){
+    $scope.column = "done"; //done, want, hate    
+  }
 
   $rootScope.setting = function(){
     $rootScope.isViewAnimate = "view-animate";
@@ -277,6 +319,13 @@ cheeseControllers.controller('MypageCtrl',function($scope,$http,$rootScope, $rou
     $rootScope.isViewAnimate = ""
     $rootScope.isNextViewAnimate = ""
     $location.path("/");
+  }
+
+  $scope.recipe = function(id){
+    console.log(id);
+
+$location.path("/recipe/" + id);
+
   }
 
 });

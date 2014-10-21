@@ -71,6 +71,7 @@ body{
     rgb(255,255,255) 16px
   );
   -webkit-tap-highlight-color:rgba(0,0,0,0);
+  -webkit-user-select:none;
 }
 
 #header{
@@ -183,7 +184,7 @@ recommend
   width: 250px;
   height: 350px;
   background: rgb(255,255,255);
-  margin-top: 25px;
+  margin-top: 50px;
   margin-bottom: 20px;
   margin-left : auto ; margin-right : auto ;
   padding: 10px;
@@ -240,7 +241,7 @@ recommend
 }
 
 .recommend_card_spacer{ 
-  height: 340px;
+  height: 365px;
 }
 
 .recommend_card_dummy_1{  
