@@ -79,6 +79,11 @@ cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $
           $.each(this.ingredients, function(){
             screen_ingredients += this.screen_name+ ", ";
           });
+          
+          if(screen_ingredients.length > 45){
+            screen_ingredients = screen_ingredients.substring(0,43) + "..."
+          }
+
           this.screen_ingredients = screen_ingredients;
 
         });
