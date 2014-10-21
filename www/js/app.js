@@ -232,6 +232,9 @@ cheeseApp.factory('AuthorizationHeader', function (Base64, $http) {
             $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
 
             localStorage.authdata = encoded;
+
+            console.log(encoded);
+
         },
         clearCredentials: function () {
             document.execCommand("ClearAuthenticationCache");

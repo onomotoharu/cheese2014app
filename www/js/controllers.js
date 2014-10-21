@@ -205,13 +205,13 @@ cheeseControllers.controller('PostCtrl',function($scope,$http,$rootScope, $route
   $scope.recipe = $rootScope.currentRecipe;
   $rootScope.currentRecipe = null;
 
-  $scope.star
+  $scope.star = 0;
   $scope.setstar = function(stars){
     $scope.star = stars;
   }
 
   $scope.post = function(){
-    var url = endpoint +  "/recipes/" + $scope.recipe.id +"/made/?" + $scope.star;
+    var url = endpoint +  "/recipes/" + $scope.recipe.id +"/made";
     var data = {"comment" : $scope.comment,"rate":$scope.star};
 
     AuthorizationHeader.setCredentials();
