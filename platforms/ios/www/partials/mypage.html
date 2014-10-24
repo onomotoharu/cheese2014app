@@ -33,7 +33,8 @@
 
 
 <div class="mypage_recipe" ng-repeat="list in (column=='done')?lists.100:(column=='want')?lists.301:(column=='hate')?lists.302:null  ">
-  <img ng-click="recipe(list.id)" ng-src="{{list.default_picture_name}}"></img>
+  <div class="mypage_recipe_img" ng-click="recipe(list.id)" style="background-image: url({{list.default_picture_name}})"></div>
+  <!-- <img ng-click="recipe(list.id)" ng-src="{{list.default_picture_name}}"></img> -->
   <div class="mypage_recipe_detail">
     <p ng-if="column=='done'" class="mypage_recipe_timestamp">{{dateFormatter(list.made_at)}}</p>
     <p class="mypage_recipe_title">{{list.name}}</p>

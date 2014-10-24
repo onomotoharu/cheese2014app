@@ -66,7 +66,7 @@ cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $
 
 
     if($rootScope.recipes.length < 5){
-      var url = endpoint +  "/recommend/?limit=10";
+      var url = endpoint +  "/recommend/?limit=20";
       AuthorizationHeader.setCredentials();
       $http.get(url).
       success(function(data){
@@ -79,6 +79,11 @@ cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $
           $.each(this.ingredients, function(){
             screen_ingredients += this.screen_name+ ", ";
           });
+          
+          if(screen_ingredients.length > 45){
+            screen_ingredients = screen_ingredients.substring(0,43) + "..."
+          }
+
           this.screen_ingredients = screen_ingredients;
 
         });
@@ -205,18 +210,19 @@ cheeseControllers.controller('PostCtrl',function($scope,$http,$rootScope, $route
   $scope.recipe = $rootScope.currentRecipe;
   $rootScope.currentRecipe = null;
 
-  $scope.star
+  $scope.star = 0;
   $scope.setstar = function(stars){
     $scope.star = stars;
   }
 
   $scope.post = function(){
-    var url = endpoint +  "/recipes/" + $scope.recipe.id +"/made/?" + $scope.star;
-    var data = {"comment" : $scope.comment};
+    var url = endpoint +  "/recipes/" + $scope.recipe.id +"/made";
+    var data = {"comment" : $scope.comment,"rate":$scope.star};
 
     AuthorizationHeader.setCredentials();
     $http.post(url,data).
     success(function(data){
+      console.log(data);
       $location.path("/postafter");
       $rootScope.postInformation = {"recipe": $scope.recipe, "comment" : $scope.comment, "star" : $scope.star};
     });    
@@ -251,7 +257,11 @@ cheeseControllers.controller('PostafterCtrl',function($scope,$http,$rootScope, $
 
 
   $scope.twitter = function(){
-    var comment = $scope.postInformation.comment + " / " + (new Array($scope.star+1).join("★")) + (new Array(6-$scope.star).join("☆")) +" / "+ $scope.postInformation.recipe.name + " #cheese";
+    var postcomment =  ($scope.postInformation.comment.length > 1)? $scope.postInformation.comment + " / " : "";
+    var comment = postcomment + (new Array($scope.star+1).join("★")) + (new Array(6-$scope.star).join("☆")) +" / "+ $scope.postInformation.recipe.name + " #cheese";
+
+    console.log($scope.postInformation.recipe.default_picture_name);
+
     $cordovaSocialSharing
       .shareViaTwitter(comment, $scope.postInformation.recipe.default_picture_name)
       .then(function(result) {
