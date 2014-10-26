@@ -1,4 +1,12 @@
-<div class="tutorial">
+<div id="tutorial">
+<!-- <img id="tutorial_logo" src="./img/logo.png"> -->
+<img id="tutorial_screenshot" src="./img/screenshot.png">
+<video id="tutorial_movie" src="./img/tutorial_demo.mov"></video>
+<div id="tuto_tutobtn" ng-click="play()">チュートリアル</div>
+<div id="tuto_nextbtn" ng-click="next()">次へ</div>
+</div>
+
+<!-- <div class="tutorial">
   <div ng-show="page!=1 && page!= 7" class="movie"><img ng-src='./gifmovie/{{ ["1_move.gif", "2_not.gif", "3_want.gif", "4_cooked.gif", "5_contribute.gif"][page-2] }}'></img></div>
 
   <div ng-class="(page==1)?'howto_start':(page==4)?'howto4':(page==7)?'howto_end':'howto' " style="white-space: pre;">
@@ -25,4 +33,4 @@
 </div>
 
 <div ng-show="page<7" class="tuto_btn" ng-click="page = page + 1">次へ</div>
-<div ng-show="page>=7" class="tuto_btn" ng-click="next()">次へ</div>
+<div ng-show="page>=7" class="tuto_btn" ng-click="next()">次へ</div> -->
