@@ -38,6 +38,7 @@
   <div class="mypage_recipe_detail">
     <p ng-if="column=='done'" class="mypage_recipe_timestamp">{{dateFormatter(list.made_at)}}</p>
     <p class="mypage_recipe_title">{{list.name}}</p>
-    <!-- <p class="mypage_recipe_ingridients">卵、ケチャップ、ごはん</p> -->
+    <p ng-if="column=='done'" class="mypage_star" > {{ starStr(list.rate) }} </p>
+    <p ng-if="column=='done'" >{{list.comment}}</p>
   </div>
 </div>

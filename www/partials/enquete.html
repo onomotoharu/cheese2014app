@@ -1,1 +1,26 @@
-enquete
+<img class="recommend_card_like" src="./img/positive.png">
+<img class="recommend_card_nope" src="./img/negative.png">
+
+
+
+<div id="carousel-example" class="carousel">
+  <div class="carousel-inner">
+<!-- 
+    <div class="recommend_card" >
+      <img src="./img/loading.png" class="recommend_loading">
+    </div> -->
+
+    <div ng-repeat="recipe in recipes" class="recommend_card" carousel-item index="{{$index}}">
+      <div class="recommend_card_img" style="background-image: url({{recipe.image_url}})"></div>
+      <p class="recommend_card_title">{{recipe.name}}</p>
+      <p class="recommend_card_ingridients" >{{recipe.screen_ingredients}}</p>
+    </div>
+    
+  </div>
+</div>
+
+<div class="recommend_card_spacer"></div>
+<div ng-if="recipes.length >= 2" class="recommend_card_dummy_1"></div>
+<div ng-if="recipes.length >= 3" class="recommend_card_dummy_2"></div>
+
+<div ng-if="recipes.length == 0" id="enquete_nextbtn" ng-click="next()">次へ</div>

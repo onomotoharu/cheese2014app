@@ -604,8 +604,14 @@ mypage
 }
 
 .mypage_recipe_title{
-  font-size: 22px;
+  font-size: 20px;
 }
+
+.mypage_star{
+  color: rgb(238,196,63);
+  font-size: 20px;
+}
+
 
 .mypage_recipe_ingridients{
   font-size: 15px;
@@ -853,7 +859,100 @@ tutorial
 ----------
 */
 
-.tutorial{
+
+#tutorial{
+/*  width: 100%;
+  height: 100%;
+  background: rgb(239,197,45);*/
+}
+
+#tutorial_logo{
+  display: block;
+  margin: 20px;
+  height: 30px;
+  margin-left : auto ; margin-right : auto ;
+}
+
+#tutorial_screenshot{
+  padding: 10px;
+  display: block;
+  width:170px;
+  margin-left : auto ; margin-right : auto ;
+}
+
+#tutorial_movie{
+  width: 0px;
+  height: 0px;
+}
+
+#tuto_tutobtn{
+  margin-top: -20px;
+  margin-left : auto ; margin-right : auto ;
+  width: 180px;
+  text-align: center;
+  height: 20px;
+  padding: 13px;
+  font-size: 20px;
+  color: rgb(255,255,255);
+  background-color: rgb(39,176,59);
+  border-radius: 6px;
+  box-shadow: 0px -2px 0px rgb(0,100,6) inset;
+  margin-bottom: 20px;
+}
+
+#tuto_tutobtn.ng-click-active,
+#tuto_tutobtn:active{
+  margin-top:23 px;
+  color: rgb(150,150,150);
+  background-color: rgb(20,120,26);
+  box-shadow: 0px 2px 0px rgb(0,100,6) inset;
+}
+
+
+#tuto_nextbtn{
+  margin-top: 20px;
+  margin-left : auto ; margin-right : auto ;
+  width: 180px;
+  text-align: center;
+  height: 20px;
+  padding: 13px;
+  font-size: 20px;
+  color: rgb(255,255,255);
+  background-color: rgb(30,134,45);
+  border-radius: 6px;
+  box-shadow: 0px -2px 0px rgb(0,100,6) inset;
+}
+
+#tuto_nextbtn.ng-click-active,
+#tuto_nextbtn:active{
+  margin-top:23 px;
+  color: rgb(150,150,150);
+  background-color: rgb(20,120,26);
+  box-shadow: 0px 2px 0px rgb(0,100,6) inset;
+}
+
+/*
+----------
+enquete
+----------
+*/
+
+#enquete_nextbtn{
+  margin-left : auto ; margin-right : auto ;
+  width: 180px;
+  text-align: center;
+  height: 20px;
+  padding: 13px;
+  font-size: 20px;
+  color: rgb(255,255,255);
+  background-color: rgb(39,176,59);
+  border-radius: 6px;
+  box-shadow: 0px -2px 0px rgb(0,100,6) inset;
+  margin-bottom: 20px;
+}
+
+
+/*.tutorial{
   background-color: rgb(255,252,222);
   margin: 10px;
   height: 350px;
@@ -907,6 +1006,8 @@ tutorial
 
 
 
+
+
 /*
 +++++++++++++++++++++
   css for demo 
@@ -916,6 +1017,7 @@ tutorial
 .setting_section_box .fa-instagram{
   color: rgb(0,164,0);
 }
+
 
 
 
@@ -975,7 +1077,7 @@ p {
 }
 
 .mypage_recipe_title {
-  font-size:14px !important;
+  /*font-size:14px !important;*/
   /*スマホでみたら小さいかも…あとでまた変更をお願いするかもしれない*/
 }
 

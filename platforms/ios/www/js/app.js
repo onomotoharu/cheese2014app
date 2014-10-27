@@ -43,6 +43,10 @@ cheeseApp.config(['$routeProvider',
         templateUrl: 'partials/tutorial.html',
         controller: 'TutorialCtrl'
       }).
+      when('/enquete', {
+        templateUrl: 'partials/enquete.html',
+        controller: 'EnqueteCtrl'
+      }).
       otherwise({
         redirectTo: '/'
       });
@@ -230,11 +234,7 @@ cheeseApp.factory('AuthorizationHeader', function (Base64, $http) {
         setCredentials: function () {
             var encoded = Base64.encode(localStorage.api_token + ':' + localStorage.api_token_secret);
             $http.defaults.headers.common.Authorization = 'Basic ' + encoded;
-
             localStorage.authdata = encoded;
-
-            console.log(encoded);
-
         },
         clearCredentials: function () {
             document.execCommand("ClearAuthenticationCache");

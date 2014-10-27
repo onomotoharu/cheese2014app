@@ -41,7 +41,7 @@ cheeseControllers.controller('TutorialCtrl',function($scope,$http,$rootScope, $r
   $scope.next= function(){
     localStorage.launchTimes++;
     $scope.signIn();
-    $location.path("/");
+    $location.path("/enquete");
   }
 });
 
@@ -56,7 +56,80 @@ cheeseControllers.controller('EnqueteCtrl',function($scope,$http,$rootScope, $ro
   $rootScope.setting = function(){};
   $rootScope.back = function(){};
 
+  recipeFormat = function(data,recipe_id){
+    recipe = data;
+    recipe.image_url = $sce.trustAsResourceUrl(imgSrc + recipe.default_picture_name);
+    recipe.id = recipe_id;
+    recipe.screen_ingredients = "";
+    $.each(recipe.foods, function(){
+      recipe.screen_ingredients += this.screen_name+ ", ";
+    });
+    if(recipe.screen_ingredients.length > 45){
+      recipe.screen_ingredients = recipe.screen_ingredients.substring(0,43) + "..."
+    }
+    return recipe;
+  }
+  $scope.recipes = [];
+  recipe_ids = [1000000216,1000000216,1000000216,1000000216,1000000216,1000000216];
+  AuthorizationHeader.setCredentials();
+  $.each(recipe_ids,function(){
+    var url = endpoint +  "/recipes/" + this +"/detail";
+    $http.get(url).
+    success(function(data){
+      recipe = recipeFormat(data,this)
+      $scope.recipes.push(recipe);
+      console.log($scope.recipes);
+      // $scope.recipe = [data];
+    });  
+  })
+
+  $rootScope.likeOrNopeIndicator = function(deltaXRatio){
+    if(deltaXRatio > 0 ){
+      $(".recommend_card_like").css('opacity',0);
+      $(".recommend_card_nope").css('opacity',deltaXRatio * 1.8);  
+    }else{
+      $(".recommend_card_like").css('opacity',deltaXRatio * -1.8);
+      $(".recommend_card_nope").css('opacity',0);
+    }
+  }  
+
+  $scope.removeCard = function(e){
+    $scope.recipes.splice(e.attr("index"),1);
+    e.remove();
+  }
+
+  $rootScope.carouselPrev = function(e) {
+    var recipe_id = $scope.recipes[ e.attr("index") ].id;
+    var url = endpoint +  "/recipes/" + recipe_id +"/positive";
+    AuthorizationHeader.setCredentials();
+    $http.post(url).
+    success(function(data){
+      console.log("fav!")
+    });
+
+    $scope.removeCard(e);    
+  };
+    
+  $rootScope.carouselNext = function(e) {
+    var recipe_id = $scope.recipes[ e.attr("index") ].id;
+    var url = endpoint +  "/recipes/" + recipe_id +"/negative";
+    AuthorizationHeader.setCredentials();
+    $http.post(url).
+    success(function(data){
+      console.log("fav!")
+    });
+
+    $scope.removeCard(e);    
+  };
+
+  $scope.next= function(){
+    $location.path("/");
+  }
+
 });
+
+
+
 
 cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $routeParams,$location, AuthorizationHeader, $sce){ 
   $rootScope.headerShow = true;
