@@ -70,7 +70,7 @@ cheeseControllers.controller('EnqueteCtrl',function($scope,$http,$rootScope, $ro
     return recipe;
   }
   $scope.recipes = [];
-  recipe_ids = [1000000216,1000000216,1000000216,1000000216,1000000216,1000000216];
+  recipe_ids = [1660001850,1110000086,1320000110,1580031440,1310002508,1900002149,1440002551,1240005619,1210001576,1670001116];
   AuthorizationHeader.setCredentials();
   $.each(recipe_ids,function(){
     var url = endpoint +  "/recipes/" + this +"/detail";
@@ -158,7 +158,7 @@ cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $
 
 
     if($rootScope.recipes.length < 5){
-      var url = endpoint +  "/recommend/?limit=20";
+      var url = endpoint +  "/recommend/?limit=5&hoge=" + Math.random();
       AuthorizationHeader.setCredentials();
       $http.get(url).
       success(function(data){
@@ -368,7 +368,7 @@ cheeseControllers.controller('PostafterCtrl',function($scope,$http,$rootScope, $
 
   $scope.twitter = function(){
     var postcomment =  ($scope.postInformation.comment.length > 1)? $scope.postInformation.comment + " / " : "";
-    var comment = postcomment + (new Array($scope.star+1).join("★")) + (new Array(6-$scope.star).join("☆")) +" / "+ $scope.postInformation.recipe.name + " #cheese";
+    var comment = postcomment + (new Array($scope.star+1).join("★")) + (new Array(6-$scope.star).join("☆")) +" / "+ $scope.postInformation.recipe.name + " #Cheese_app";
 
     console.log($scope.postInformation.recipe.default_picture_name);
 
