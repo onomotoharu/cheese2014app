@@ -19,13 +19,8 @@
 
 
 
-<div ng-show="recipe.tips!=undefined && recipe.tips.length>=0" class="recipe_section" id="recipe_know_how">
-  <p class="recipe_subtitle">料理のコツ</p>
-  <div class="recipe_subsection">
-    <div class="box">
-        <p>{{recipe.tips}}</p>
-    </div>
-  </div>
+<div ng-show="recipe.tips!=undefined && recipe.tips.length>=0" id="recipe_know_how">
+  <p class="recipe_know_how">コツ：<span class="recipe_know_how_detail">{{recipe.tips}}</span></p>
 </div>
 
 <div ng-show="recipe.foods!=undefined" class="recipe_section" id="recipe_ingridents">

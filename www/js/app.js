@@ -3,7 +3,8 @@ var cheeseApp = angular.module('cheeseApp',[
   'ngTouch',
 	'cheeseControllers',
   'ngAnimate',
-  'ngCordova'
+  'ngCordova',
+  'ngTouch'
 	]).run(function($rootScope, $location){
     if( isFinite(localStorage.launchTimes) ) {
         localStorage.launchTimes++;

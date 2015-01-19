@@ -149,6 +149,13 @@ cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $
     $location.path("/tutorial");
   }
 
+  $scope.touch = function(recipe_id){ 
+    $rootScope.isViewAnimate = "view-animate";
+    $rootScope.isNextViewAnimate = "view-animate";
+    $location.path("/recipe/" + recipe_id); 
+  }
+
+
   //fillCard
   $scope.fillCard = function(){
     if($rootScope.recipes == undefined){
@@ -201,10 +208,13 @@ cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $
   }
 
   $rootScope.carouselPrev = function(e) {
-    $rootScope.isViewAnimate = "view-animate";
-    $rootScope.isNextViewAnimate = "view-animate";
     var recipe_id = $scope.recipes[ e.attr("index") ].id;
-    $rootScope.$apply(function() { $location.path("/recipe/" + recipe_id); });
+    var url = endpoint +  "/recipes/" + recipe_id +"/positive";
+    AuthorizationHeader.setCredentials();
+    $http.post(url).
+    success(function(data){
+      // console.log("fav!")
+    });
     $scope.removeCard(e);
   };
     
@@ -214,7 +224,7 @@ cheeseControllers.controller('RecommendCtrl',function($scope,$http,$rootScope, $
     AuthorizationHeader.setCredentials();
     $http.post(url).
     success(function(data){
-      // console.log("fav!")
+      // console.log("negative!")
     });
 
     $scope.removeCard(e);    
@@ -367,7 +377,7 @@ cheeseControllers.controller('PostafterCtrl',function($scope,$http,$rootScope, $
 
 
   $scope.twitter = function(){
-    var postcomment =  ($scope.postInformation.comment.length > 1)? $scope.postInformation.comment + " / " : "";
+    var postcomment =  ($scope.postInformation.comment)? $scope.postInformation.comment + " / " : "";
     var comment = postcomment + (new Array($scope.star+1).join("★")) + (new Array(6-$scope.star).join("☆")) +" / "+ $scope.postInformation.recipe.name + " #Cheese_app";
 
     console.log($scope.postInformation.recipe.default_picture_name);
@@ -440,6 +450,8 @@ cheeseControllers.controller('MypageCtrl',function($scope,$http,$rootScope, $rou
   }
 
   $scope.recipe = function(id){
+    $rootScope.isViewAnimate = "view-animate";
+    $rootScope.isNextViewAnimate = "view-animate";
     console.log(id);
     $location.path("/recipe/" + id);
   }
